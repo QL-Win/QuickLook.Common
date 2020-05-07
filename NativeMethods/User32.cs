@@ -52,7 +52,13 @@ namespace QuickLook.Common.NativeMethods
         public static extern int GetWindowLong(IntPtr hWnd, int nIndex);
 
         [DllImport("user32.dll")]
+        public static extern IntPtr GetAncestor(IntPtr hwnd, uint gaFlags);
+
+        [DllImport("user32.dll")]
         public static extern IntPtr GetForegroundWindow();
+
+        [DllImport("user32.dll")]
+        public static extern IntPtr GetDesktopWindow();
 
         [DllImport("user32.dll")]
         public static extern IntPtr GetWindowThreadProcessId(IntPtr hWnd, IntPtr processId);
@@ -115,6 +121,10 @@ namespace QuickLook.Common.NativeMethods
         public const int WM_SYSKEYUP = 0x105;
         public const int GWL_EXSTYLE = -20;
         public const int WS_EX_NOACTIVATE = 0x08000000;
+
+        public const uint GA_PARENT = 1;
+        public const uint GA_ROOT = 2;
+        public const uint GA_ROOTOWNER = 3;
         // ReSharper restore InconsistentNaming
     }
 }

@@ -18,6 +18,7 @@
 using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using System.Text;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Interop;
@@ -35,7 +36,10 @@ namespace QuickLook.Common.Helpers
 
         public static Rect GetCurrentWindowRect()
         {
-            var screen = Screen.FromPoint(Cursor.Position).WorkingArea;
+            var screen = Screen.FromHandle(User32.GetForegroundWindow()).WorkingArea;
+            //var screen = (IsForegroundWindowDesktop()
+            //    ? Screen.FromPoint(Cursor.Position)
+            //    : Screen.FromHandle(User32.GetForegroundWindow())).WorkingArea;
             var scale = DpiHelper.GetCurrentScaleFactor();
             return new Rect(
                 new Point(screen.X / scale.Horizontal, screen.Y / scale.Vertical),
@@ -45,6 +49,8 @@ namespace QuickLook.Common.Helpers
         public static void BringToFront(this Window window, bool keep)
         {
             var handle = new WindowInteropHelper(window).Handle;
+            keep |= window.Topmost;
+
             User32.SetWindowPos(handle, User32.HWND_TOPMOST, 0, 0, 0, 0,
                 User32.SWP_NOMOVE | User32.SWP_NOSIZE | User32.SWP_NOACTIVATE);
 
@@ -90,20 +96,39 @@ namespace QuickLook.Common.Helpers
             pixelY = (int) Math.Round(matrix.M22 * unitY);
         }
 
+        public static bool IsForegroundWindowDesktop()
+        {
+            var hDesktop = User32.GetDesktopWindow();
+            var hwnd = User32.GetForegroundWindow();
+            if (hwnd == IntPtr.Zero)
+                return true;
+            if (hDesktop == hwnd)
+                return true;
+
+            var className = new StringBuilder(255);
+            if (0 == User32.GetClassName(hwnd, className, 255))
+                return true;
+            if (className.ToString().Equals("Progman") || className.ToString().Equals("WorkerW"))
+                return User32.GetAncestor(hwnd, User32.GA_PARENT) == hDesktop;
+
+            return false;
+        }
+
         public static bool IsForegroundWindowBelongToSelf()
         {
             var hwnd = User32.GetForegroundWindow();
-            if (hwnd == IntPtr.Zero)
+              if (hwnd == IntPtr.Zero)
                 return false;
 
             User32.GetWindowThreadProcessId(hwnd, out var procId);
             return procId == Process.GetCurrentProcess().Id;
         }
 
-        public static void SetNoactivate(WindowInteropHelper window)
+        public static void SetNoactivate(this Window window)
         {
-            User32.SetWindowLong(window.Handle, User32.GWL_EXSTYLE,
-                User32.GetWindowLong(window.Handle, User32.GWL_EXSTYLE) |
+            var hwnd = new WindowInteropHelper(window);
+            User32.SetWindowLong(hwnd.Handle, User32.GWL_EXSTYLE,
+                User32.GetWindowLong(hwnd.Handle, User32.GWL_EXSTYLE) |
                 User32.WS_EX_NOACTIVATE);
         }
 
