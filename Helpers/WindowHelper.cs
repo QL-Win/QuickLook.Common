@@ -18,7 +18,6 @@
 using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Interop;
@@ -34,12 +33,20 @@ namespace QuickLook.Common.Helpers
             WcaAccentPolicy = 19
         }
 
-        public static Rect GetCurrentWindowRect()
+        public static Rect GetCurrentDesktopRect()
         {
-            var screen = Screen.FromHandle(User32.GetForegroundWindow()).WorkingArea;
-            //var screen = (IsForegroundWindowDesktop()
-            //    ? Screen.FromPoint(Cursor.Position)
-            //    : Screen.FromHandle(User32.GetForegroundWindow())).WorkingArea;
+            return GetDesktopRectFromWindow(User32.GetForegroundWindow());
+        }
+
+        public static Rect GetDesktopRectFromWindow(Window window)
+        {
+            return GetDesktopRectFromWindow(new WindowInteropHelper(window).Handle);
+        }
+
+        public static Rect GetDesktopRectFromWindow(IntPtr hwnd)
+        {
+            var screen = Screen.FromHandle(hwnd).WorkingArea;
+
             var scale = DpiHelper.GetCurrentScaleFactor();
             return new Rect(
                 new Point(screen.X / scale.Horizontal, screen.Y / scale.Vertical),
@@ -96,28 +103,10 @@ namespace QuickLook.Common.Helpers
             pixelY = (int) Math.Round(matrix.M22 * unitY);
         }
 
-        public static bool IsForegroundWindowDesktop()
-        {
-            var hDesktop = User32.GetDesktopWindow();
-            var hwnd = User32.GetForegroundWindow();
-            if (hwnd == IntPtr.Zero)
-                return true;
-            if (hDesktop == hwnd)
-                return true;
-
-            var className = new StringBuilder(255);
-            if (0 == User32.GetClassName(hwnd, className, 255))
-                return true;
-            if (className.ToString().Equals("Progman") || className.ToString().Equals("WorkerW"))
-                return User32.GetAncestor(hwnd, User32.GA_PARENT) == hDesktop;
-
-            return false;
-        }
-
         public static bool IsForegroundWindowBelongToSelf()
         {
             var hwnd = User32.GetForegroundWindow();
-              if (hwnd == IntPtr.Zero)
+            if (hwnd == IntPtr.Zero)
                 return false;
 
             User32.GetWindowThreadProcessId(hwnd, out var procId);

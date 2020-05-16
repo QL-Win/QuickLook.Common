@@ -191,7 +191,7 @@ namespace QuickLook.Common.Plugin
             if (maxRatio > 1)
                 maxRatio = 1;
 
-            var max = WindowHelper.GetCurrentWindowRect();
+            var max = WindowHelper.GetCurrentDesktopRect();
 
             var widthRatio = max.Width * maxRatio / size.Width;
             var heightRatio = max.Height * maxRatio / size.Height;
