@@ -22,6 +22,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using Microsoft.Win32.SafeHandles;
 
 namespace QuickLook.Common.Helpers
 {
@@ -41,6 +42,34 @@ namespace QuickLook.Common.Helpers
                 appFriendlyName = Path.GetFileName(path);
 
             return true;
+        }
+
+        public static string CreateTempFile(string folder, string filename = null)
+        {
+            if (string.IsNullOrWhiteSpace(filename))
+                filename = Guid.NewGuid() + ".tmp";
+            var fullPath = Path.Combine(folder, filename);
+
+            var handle = new SafeFileHandle(IntPtr.Zero, true);
+
+            try
+            {
+                Directory.CreateDirectory(folder);
+
+                handle = NativeMethods.Kernel32.CreateFile(fullPath, FileAccess.ReadWrite,
+                    FileShare.None,
+                    IntPtr.Zero, FileMode.Create, FileAttributes.Temporary, IntPtr.Zero);
+
+                if (handle.IsInvalid)
+                    throw new UnauthorizedAccessException($"{folder} is not writable.");
+
+                return fullPath;
+            }
+            finally
+            {
+                if (!handle.IsInvalid && !handle.IsClosed)
+                    handle.Close();
+            }
         }
 
         public static bool GetAssocApplication(string path, out string appFriendlyName)

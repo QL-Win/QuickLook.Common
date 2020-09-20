@@ -28,7 +28,11 @@ namespace QuickLook.Common.Helpers
     public class SettingHelper
     {
         public static readonly string LocalDataPath =
-            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"pooi.moe\QuickLook\");
+            IsPortableVersion()
+                ? Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? "",
+                    @"UserData\")
+                : Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                    @"pooi.moe\QuickLook\");
 
         private static readonly Dictionary<string, XmlDocument> FileCache = new Dictionary<string, XmlDocument>();
 
@@ -59,6 +63,14 @@ namespace QuickLook.Common.Helpers
                 (calling ?? Assembly.GetCallingAssembly()).GetName().Name + ".config");
 
             WriteSettingToXml(GetConfigFile(file), id, value);
+        }
+
+        public static bool IsPortableVersion()
+        {
+            var lck = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? "",
+                "portable.lock");
+
+            return File.Exists(lck);
         }
 
         private static T GetSettingFromXml<T>(XmlDocument doc, string id, T failsafe)
