@@ -61,6 +61,9 @@ namespace QuickLook.Common.NativeMethods
         public static extern IntPtr GetDesktopWindow();
 
         [DllImport("user32.dll")]
+        public static extern bool GetWindowRect(IntPtr hwnd, out RECT lpRect);
+
+        [DllImport("user32.dll")]
         public static extern IntPtr GetWindowThreadProcessId(IntPtr hWnd, IntPtr processId);
 
         [DllImport("user32.dll")]
@@ -90,6 +93,15 @@ namespace QuickLook.Common.NativeMethods
             public int flags;
             public int time;
             public int dwExtraInfo;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct RECT
+        {
+            public int Left;
+            public int Top;
+            public int Right;
+            public int Bottom;
         }
 
         // ReSharper disable InconsistentNaming

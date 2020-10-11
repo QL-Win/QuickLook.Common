@@ -33,24 +33,24 @@ namespace QuickLook.Common.Helpers
             WcaAccentPolicy = 19
         }
 
-        public static Rect GetCurrentDesktopRect()
+        public static Rect GetCurrentDesktopRectInPixel()
         {
-            return GetDesktopRectFromWindow(User32.GetForegroundWindow());
+            return GetDesktopRectFromWindowInPixel(User32.GetForegroundWindow());
         }
 
-        public static Rect GetDesktopRectFromWindow(Window window)
+        public static Rect GetDesktopRectFromWindowInPixel(Window window)
         {
-            return GetDesktopRectFromWindow(new WindowInteropHelper(window).Handle);
+            return GetDesktopRectFromWindowInPixel(new WindowInteropHelper(window).Handle);
         }
 
-        public static Rect GetDesktopRectFromWindow(IntPtr hwnd)
+        public static Rect GetDesktopRectFromWindowInPixel(IntPtr hwnd)
         {
             var screen = Screen.FromHandle(hwnd).WorkingArea;
 
-            var scale = DpiHelper.GetCurrentScaleFactor();
-            return new Rect(
-                new Point(screen.X / scale.Horizontal, screen.Y / scale.Vertical),
-                new Size(screen.Width / scale.Horizontal, screen.Height / scale.Vertical));
+            var area = new Rect(new Point(screen.X, screen.Y),
+                new Size(screen.Width, screen.Height));
+
+            return area;
         }
 
         public static void BringToFront(this Window window, bool keep)
@@ -67,20 +67,28 @@ namespace QuickLook.Common.Helpers
         }
 
         public static void MoveWindow(this Window window,
-            double left,
-            double top,
+            double pxLeft,
+            double pxTop,
             double width,
             double height)
         {
-            int pxLeft = 0, pxTop = 0;
-            if (left != 0 || top != 0)
-                TransformToPixels(window, left, top,
-                    out pxLeft, out pxTop);
+            var handle = new WindowInteropHelper(window).EnsureHandle();
 
+            // scale the size to the primary display
             TransformToPixels(window, width, height,
                 out var pxWidth, out var pxHeight);
 
-            User32.MoveWindow(new WindowInteropHelper(window).Handle, pxLeft, pxTop, pxWidth, pxHeight, true);
+            // Use absolute location and relative size. WPF will scale the size to the target display
+            User32.MoveWindow(handle, (int) Math.Round(pxLeft), (int) Math.Round(pxTop), pxWidth, pxHeight, true);
+        }
+
+        public static Rect GetWindowRectInPixel(this Window window)
+        {
+            var handle = new WindowInteropHelper(window).EnsureHandle();
+
+            User32.GetWindowRect(handle, out User32.RECT nRect);
+
+            return new Rect(new Point(nRect.Left, nRect.Top), new Point(nRect.Right, nRect.Bottom));
         }
 
         private static void TransformToPixels(this Visual visual,
