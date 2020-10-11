@@ -33,6 +33,14 @@ namespace QuickLook.Common.Helpers
             WcaAccentPolicy = 19
         }
 
+        public static Size GetCurrentDesktopSize()
+        {
+            var scale = DpiHelper.GetCurrentScaleFactor();
+            var rect = GetCurrentDesktopRectInPixel();
+
+            return new Size(rect.Width / scale.Horizontal, rect.Height / scale.Vertical);
+        }
+
         public static Rect GetCurrentDesktopRectInPixel()
         {
             return GetDesktopRectFromWindowInPixel(User32.GetForegroundWindow());
