@@ -19,7 +19,9 @@ using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using System.Reflection;
 using System.Threading.Tasks;
+using System.Windows;
 using QuickLook.Common.NativeMethods;
 
 namespace QuickLook.Common.Helpers
@@ -60,6 +62,15 @@ namespace QuickLook.Common.Helpers
                 Environment.OSVersion.Version.Minor, 0, 0, out var osType);
 
             return osType == PRODUCT_CLOUD || osType == PRODUCT_CLOUDN;
+        }
+
+        public static bool IsShuttingDown()
+        {
+            var isShuttingDownProperty =
+                typeof(Application).GetProperty("IsShuttingDown", BindingFlags.NonPublic | BindingFlags.Static);
+            if (isShuttingDownProperty == null)
+                throw new Exception("Unable to detect Application.IsShuttingDown.");
+            return (bool) isShuttingDownProperty.GetValue(Application.Current);
         }
 
         public static void WriteLog(string msg)
