@@ -36,14 +36,12 @@ namespace QuickLook.Common.Helpers
 
         private static readonly Dictionary<string, XmlDocument> FileCache = new Dictionary<string, XmlDocument>();
 
-        [MethodImpl(MethodImplOptions.NoInlining)]
-        public static T Get<T>(string id, T failsafe = default(T), Assembly calling = null)
+        public static T Get<T>(string id, T failsafe = default, string domain = "QuickLook")
         {
             if (!typeof(T).IsSerializable && !typeof(ISerializable).IsAssignableFrom(typeof(T)))
                 throw new InvalidOperationException("A serializable Type is required");
 
-            var file = Path.Combine(LocalDataPath,
-                (calling ?? Assembly.GetCallingAssembly()).GetName().Name + ".config");
+            var file = Path.Combine(LocalDataPath, domain + ".config");
 
             var doc = GetConfigFile(file);
 
@@ -53,14 +51,12 @@ namespace QuickLook.Common.Helpers
             return s != null ? s : failsafe;
         }
 
-        [MethodImpl(MethodImplOptions.NoInlining)]
-        public static void Set(string id, object value, Assembly calling = null)
+        public static void Set(string id, object value, string domain = "QuickLook")
         {
             if (!value.GetType().IsSerializable)
                 throw new NotSupportedException("New value if not serializable.");
 
-            var file = Path.Combine(LocalDataPath,
-                (calling ?? Assembly.GetCallingAssembly()).GetName().Name + ".config");
+            var file = Path.Combine(LocalDataPath, domain + ".config");
 
             WriteSettingToXml(GetConfigFile(file), id, value);
         }
