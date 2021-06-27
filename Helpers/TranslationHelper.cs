@@ -31,13 +31,16 @@ namespace QuickLook.Common.Helpers
 
         private static readonly Dictionary<string, XPathNavigator> FileCache = new Dictionary<string, XPathNavigator>();
 
-        [MethodImpl(MethodImplOptions.NoInlining)]
         public static string Get(string id, string file = null, CultureInfo locale = null, string failsafe = null,
-            Assembly calling = null)
+            string domain = "QuickLook")
         {
             if (file == null)
-                file = Path.Combine(Path.GetDirectoryName((calling ?? Assembly.GetCallingAssembly()).Location),
-                    "Translations.config");
+            {
+                var subDir = domain == "QuickLook" ? "" : $"QuickLook.Plugin\\{domain}";
+                file = Path.Combine(
+                    Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), // path of QuickLook.Common.dll
+                    subDir, "Translations.config");
+            }
 
             if (!File.Exists(file))
                 return failsafe ?? id;
