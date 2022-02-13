@@ -24,7 +24,7 @@ using QuickLook.Common.NativeMethods;
 
 namespace QuickLook.Common.Helpers
 {
-    public static class DpiHelper
+    public static class DisplayDeviceHelper
     {
         public const int DefaultDpi = 96;
 

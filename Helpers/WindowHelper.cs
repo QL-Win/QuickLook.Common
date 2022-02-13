@@ -35,7 +35,7 @@ namespace QuickLook.Common.Helpers
 
         public static Size GetCurrentDesktopSize()
         {
-            var scale = DpiHelper.GetCurrentScaleFactor();
+            var scale = DisplayDeviceHelper.GetCurrentScaleFactor();
             var rect = GetCurrentDesktopRectInPixel();
 
             return new Size(rect.Width / scale.Horizontal, rect.Height / scale.Vertical);
