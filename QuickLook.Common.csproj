@@ -46,8 +46,9 @@
     <Compile Include="..\GitVersion.cs">
       <Link>Properties\GitVersion.cs</Link>
     </Compile>
+    <Compile Include="NativeMethods\MsCms.cs" />
     <Compile Include="Plugin\ContextObject.cs" />
-    <Compile Include="Helpers\DpiHelper.cs" />
+    <Compile Include="Helpers\DisplayDeviceHelper.cs" />
     <Compile Include="ExtensionMethods\BitmapExtensions.cs" />
     <Compile Include="ExtensionMethods\DispatcherExtensions.cs" />
     <Compile Include="ExtensionMethods\EnumerableExtensions.cs" />

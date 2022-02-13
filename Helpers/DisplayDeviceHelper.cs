@@ -21,6 +21,9 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
 using QuickLook.Common.NativeMethods;
+using static QuickLook.Common.NativeMethods.User32;
+using static QuickLook.Common.NativeMethods.MsCms;
+using System.Text;
 
 namespace QuickLook.Common.Helpers
 {
@@ -66,12 +69,39 @@ namespace QuickLook.Common.Helpers
 
             return new ScaleFactor {Horizontal = (float) dpiX / DefaultDpi, Vertical = (float) dpiY / DefaultDpi};
         }
+        public static string GetMonitorColorProfileFromWindow(Window window)
+        {
+            var hMonitor = MonitorFromWindow(new WindowInteropHelper(window).EnsureHandle(), MonitorDefaults.TONEAREST);
+            return GetMonitorColorProfile(hMonitor);
+        }
 
-        [DllImport("gdi32.dll", CharSet = CharSet.Auto, SetLastError = true, ExactSpelling = true)]
-        private static extern int GetDeviceCaps(IntPtr hDC, DeviceCap nIndex);
+        public static string GetMonitorColorProfile(IntPtr hMonitor)
+        {
+            var profileDir = new StringBuilder(255);
+            var pDirSize = (uint)profileDir.Capacity;
+            GetColorDirectory(null, profileDir, ref pDirSize);
 
-        [DllImport("user32.dll")]
-        private static extern IntPtr MonitorFromWindow(IntPtr hWnd, MonitorDefaults dwFlags);
+            var mInfo = new MONITORINFOEX();
+            mInfo.cbSize = (uint)Marshal.SizeOf(mInfo);
+            if (!GetMonitorInfo(hMonitor, ref mInfo))
+                return null;
+
+            var dd = new DISPLAYDEVICE();
+            dd.cb = (uint)Marshal.SizeOf(dd);
+            if (!EnumDisplayDevices(mInfo.szDevice, 0, ref dd, 0))
+                return null;
+
+            WcsGetUsePerUserProfiles(dd.DeviceKey, CLASS_MONITOR, out bool usePerUserProfiles);
+            var scope = usePerUserProfiles ? WcsProfileManagementScope.CURRENT_USER : WcsProfileManagementScope.SYSTEM_WIDE;
+
+            if (!WcsGetDefaultColorProfileSize(scope, dd.DeviceKey, ColorProfileType.ICC, ColorProfileSubtype.NONE, 0, out uint size))
+                return null;
+
+            var profileName = new StringBuilder((int)size);
+            if (!WcsGetDefaultColorProfile(scope, dd.DeviceKey, ColorProfileType.ICC, ColorProfileSubtype.NONE, 0, size, profileName))
+                return null;
+            return System.IO.Path.Combine(profileDir.ToString(), profileName.ToString());
+        }
 
         [DllImport("shcore.dll")]
         private static extern uint
@@ -82,25 +112,6 @@ namespace QuickLook.Common.Helpers
             EFFECTIVE_DPI = 0,
             ANGULAR_DPI = 1,
             RAW_DPI = 2
-        }
-
-        private enum MonitorDefaults
-        {
-            TONULL = 0,
-            TOPRIMARY = 1,
-            TONEAREST = 2
-        }
-
-        private enum DeviceCap
-        {
-            /// <summary>
-            ///     Logical pixels inch in X
-            /// </summary>
-            LOGPIXELSX = 88,
-            /// <summary>
-            ///     Logical pixels inch in Y
-            /// </summary>
-            LOGPIXELSY = 90
         }
 
         public struct ScaleFactor

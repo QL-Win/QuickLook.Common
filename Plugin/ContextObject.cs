@@ -39,6 +39,7 @@ namespace QuickLook.Common.Plugin
         private bool _titlebarOverlap;
         private Themes _theme = Themes.None;
         private object _viewerContent;
+        private string _colorProfileName = null;
 
         /// <summary>
         ///     Get or set the title of Viewer window.
@@ -178,6 +179,19 @@ namespace QuickLook.Common.Plugin
             }
         }
 
+        /// <summary>
+        /// The color profile of the monitor that will host the preview window
+        /// </summary>
+        public string ColorProfileName
+        {
+            get => _colorProfileName;
+            set
+            {
+                _colorProfileName = value;
+                OnPropertyChanged();
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
@@ -220,6 +234,8 @@ namespace QuickLook.Common.Plugin
             TitlebarColourVisibility = true;
 
             ViewerContent = null;
+
+            ColorProfileName = null;
         }
 
         [NotifyPropertyChangedInvocator]
