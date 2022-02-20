@@ -46,6 +46,7 @@
     <Compile Include="..\GitVersion.cs">
       <Link>Properties\GitVersion.cs</Link>
     </Compile>
+    <Compile Include="Helpers\OSThemeHelper.cs" />
     <Compile Include="NativeMethods\MsCms.cs" />
     <Compile Include="Plugin\ContextObject.cs" />
     <Compile Include="Helpers\DisplayDeviceHelper.cs" />
