@@ -131,10 +131,17 @@ namespace QuickLook.Common.Helpers
 
         public static void SetNoactivate(this Window window)
         {
-            var hwnd = new WindowInteropHelper(window);
-            User32.SetWindowLong(hwnd.Handle, User32.GWL_EXSTYLE,
-                User32.GetWindowLong(hwnd.Handle, User32.GWL_EXSTYLE) |
+            var hwnd = new WindowInteropHelper(window).Handle;
+            User32.SetWindowLong(hwnd, User32.GWL_EXSTYLE,
+                User32.GetWindowLong(hwnd, User32.GWL_EXSTYLE) |
                 User32.WS_EX_NOACTIVATE);
+        }
+        public static void RemoveWindowControls(this Window window)
+        {
+            var hwnd = new WindowInteropHelper(window).Handle;
+            User32.SetWindowLong(hwnd, User32.GWL_STYLE,
+                User32.GetWindowLong(hwnd, User32.GWL_STYLE) &
+                ~User32.WS_SYSMENU);
         }
 
         public static void EnableBlur(Window window)
@@ -158,6 +165,33 @@ namespace QuickLook.Common.Helpers
             User32.SetWindowCompositionAttribute(new WindowInteropHelper(window).Handle, ref data);
 
             Marshal.FreeHGlobal(accentPtr);
+        }
+
+        private static void EnableDwmBlur(Window window, bool isDarkTheme, uint dwAttribute, int pvAttribute)
+        {
+            // Mica will handle the color
+            window.Background = Brushes.Transparent;
+
+            var hwnd = new WindowInteropHelper(window).Handle;
+
+            var isDarkThemeInt = isDarkTheme ? 1 : 0;
+            Dwmapi.DwmSetWindowAttribute(hwnd, (uint)Dwmapi.WindowAttribute.UseImmersiveDarkMode, ref isDarkThemeInt, Marshal.SizeOf(typeof(bool)));
+
+            var margins = new Dwmapi.Margins(-1, -1, -1, -1);
+            Dwmapi.DwmExtendFrameIntoClientArea(hwnd, ref margins);
+
+            var val = pvAttribute;
+            Dwmapi.DwmSetWindowAttribute(hwnd, dwAttribute, ref val, Marshal.SizeOf(typeof(int)));
+        }
+
+        public static void EnableMicaBlur(Window window, bool isDarkTheme)
+        {
+            EnableDwmBlur(window, isDarkTheme, (uint)Dwmapi.WindowAttribute.MicaEffect, 1);
+        }
+
+        public static void EnableBackdropMicaBlur(Window window, bool isDarkTheme)
+        {
+            EnableDwmBlur(window, isDarkTheme, (uint)Dwmapi.WindowAttribute.SystembackdropType, (int)Dwmapi.SystembackdropType.MainWindow);
         }
 
         [StructLayout(LayoutKind.Sequential)]

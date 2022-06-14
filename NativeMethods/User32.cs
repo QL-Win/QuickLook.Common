@@ -189,7 +189,11 @@ namespace QuickLook.Common.NativeMethods
         public const int WM_KEYUP = 0x101;
         public const int WM_SYSKEYDOWN = 0x104;
         public const int WM_SYSKEYUP = 0x105;
+        public const int GWL_STYLE = -16;
         public const int GWL_EXSTYLE = -20;
+        public const int WS_SYSMENU = 0x00080000;
+        public const int WS_MINIMIZEBOX = 0x00020000;
+        public const int WS_MAXIMIZEBOX = 0x00010000;
         public const int WS_EX_NOACTIVATE = 0x08000000;
 
         public const uint GA_PARENT = 1;
