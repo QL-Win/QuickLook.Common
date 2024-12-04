@@ -51,7 +51,7 @@
 		<Reference Include="WindowsBase" />
 	</ItemGroup>
 
-	<Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-		<Exec Command="powershell -file $(SolutionDir)Scripts\update-version.ps1" />
-	</Target>
+	<PropertyGroup>
+		<PreBuildEvent>powershell -file "$(SolutionDir)Scripts\update-version.ps1"</PreBuildEvent>
+	</PropertyGroup>
 </Project>
