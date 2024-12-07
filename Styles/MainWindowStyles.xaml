@@ -71,7 +71,7 @@
                             BorderThickness="0">
                         <ContentPresenter HorizontalAlignment="Center"
                                           VerticalAlignment="Center"
-                                          TextBlock.FontFamily="{StaticResource SegoeMDL2}" />
+                                          TextBlock.FontFamily="{StaticResource SegoeFluent}" />
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
