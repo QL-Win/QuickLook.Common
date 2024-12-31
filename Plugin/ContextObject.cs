@@ -42,6 +42,11 @@ public class ContextObject : INotifyPropertyChanged
     private string _colorProfileName = null;
 
     /// <summary>
+    ///     Get the instance of Viewer window.
+    /// </summary>
+    public object Source { get; set; }
+
+    /// <summary>
     ///     Get or set the title of Viewer window.
     /// </summary>
     public string Title
