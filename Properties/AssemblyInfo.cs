@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("QuickLook.Common")]
-[assembly: AssemblyCopyright("Copyright © Paddy Xu 2018")]
+[assembly: AssemblyCopyright("Copyright © 2017-2025 QL-Win Contributors")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
