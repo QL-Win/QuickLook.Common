@@ -28,12 +28,12 @@ public static class SettingHelper
 {
     public static readonly string LocalDataPath =
         IsPortableVersion()
-            ? Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? "",
+            ? Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? string.Empty,
                 @"UserData\")
             : Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
                 @"pooi.moe\QuickLook\");
 
-    private static readonly Dictionary<string, XmlDocument> FileCache = new Dictionary<string, XmlDocument>();
+    private static readonly Dictionary<string, XmlDocument> FileCache = [];
 
     public static T Get<T>(string id, T failsafe = default, string domain = "QuickLook")
     {
@@ -62,7 +62,7 @@ public static class SettingHelper
 
     public static bool IsPortableVersion()
     {
-        var lck = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? "",
+        var lck = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? string.Empty,
             "portable.lock");
 
         return File.Exists(lck);
