@@ -51,7 +51,7 @@ public static class WindowHelper
         return GetDesktopRectFromWindowInPixel(new WindowInteropHelper(window).Handle);
     }
 
-    public static Rect GetDesktopRectFromWindowInPixel(IntPtr hwnd)
+    public static Rect GetDesktopRectFromWindowInPixel(nint hwnd)
     {
         var screen = Screen.FromHandle(hwnd).WorkingArea;
 
@@ -199,7 +199,7 @@ public static class WindowHelper
     public struct WindowCompositionAttributeData
     {
         public WindowCompositionAttribute Attribute;
-        public IntPtr Data;
+        public nint Data;
         public int SizeOfData;
     }
 

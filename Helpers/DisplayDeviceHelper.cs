@@ -41,7 +41,7 @@ public static class DisplayDeviceHelper
         return GetScaleFactorFromWindow(User32.GetForegroundWindow());
     }
 
-    public static ScaleFactor GetScaleFactorFromWindow(IntPtr hwnd)
+    public static ScaleFactor GetScaleFactorFromWindow(nint hwnd)
     {
         var dpiX = DefaultDpi;
         var dpiY = DefaultDpi;
@@ -76,7 +76,7 @@ public static class DisplayDeviceHelper
         return GetMonitorColorProfile(hMonitor);
     }
 
-    public static string GetMonitorColorProfile(IntPtr hMonitor)
+    public static string GetMonitorColorProfile(nint hMonitor)
     {
         var profileDir = new StringBuilder(255);
         var pDirSize = (uint)profileDir.Capacity;
@@ -106,7 +106,7 @@ public static class DisplayDeviceHelper
 
     [DllImport("shcore.dll")]
     private static extern uint
-        GetDpiForMonitor(IntPtr hMonitor, MonitorDpiType dpiType, out int dpiX, out int dpiY);
+        GetDpiForMonitor(nint hMonitor, MonitorDpiType dpiType, out int dpiX, out int dpiY);
 
     private enum MonitorDpiType
     {

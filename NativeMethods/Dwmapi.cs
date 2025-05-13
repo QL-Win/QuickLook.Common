@@ -56,8 +56,8 @@ public static class Dwmapi
     }
 
     [DllImport("DwmApi.dll")]
-    public static extern int DwmExtendFrameIntoClientArea(IntPtr hwnd, ref Margins pMarInset);
+    public static extern int DwmExtendFrameIntoClientArea(nint hwnd, ref Margins pMarInset);
 
     [DllImport("dwmapi.dll")]
-    public static extern int DwmSetWindowAttribute(IntPtr hwnd, uint dwAttribute, ref int pvAttribute, int cbAttribute);
+    public static extern int DwmSetWindowAttribute(nint hwnd, uint dwAttribute, ref int pvAttribute, int cbAttribute);
 }

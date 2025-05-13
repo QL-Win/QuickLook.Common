@@ -28,71 +28,71 @@ public static class User32
     public delegate int KeyboardHookProc(int code, int wParam, ref KeyboardHookStruct lParam);
 
     [DllImport("user32.dll")]
-    public static extern int MoveWindow(IntPtr hWnd, int x, int y, int nWidth, int nHeight,
+    public static extern int MoveWindow(nint hWnd, int x, int y, int nWidth, int nHeight,
         [MarshalAs(UnmanagedType.Bool)] bool bRepaint);
 
     [DllImport("user32.dll")]
-    public static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int x, int y, int cx, int cy,
+    public static extern bool SetWindowPos(nint hWnd, nint hWndInsertAfter, int x, int y, int cx, int cy,
         uint uFlags);
 
     [DllImport("user32.dll")]
-    public static extern IntPtr SetWindowsHookEx(int idHook, KeyboardHookProc callback, IntPtr hInstance,
+    public static extern nint SetWindowsHookEx(int idHook, KeyboardHookProc callback, nint hInstance,
         uint threadId);
 
     [DllImport("user32.dll")]
-    public static extern bool UnhookWindowsHookEx(IntPtr hInstance);
+    public static extern bool UnhookWindowsHookEx(nint hInstance);
 
     [DllImport("user32.dll")]
-    public static extern int CallNextHookEx(IntPtr idHook, int nCode, int wParam, ref KeyboardHookStruct lParam);
+    public static extern int CallNextHookEx(nint idHook, int nCode, int wParam, ref KeyboardHookStruct lParam);
 
     [DllImport("user32.dll")]
-    public static extern IntPtr SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
+    public static extern nint SetWindowLong(nint hWnd, int nIndex, int dwNewLong);
 
     [DllImport("user32.dll")]
-    public static extern int GetWindowLong(IntPtr hWnd, int nIndex);
+    public static extern int GetWindowLong(nint hWnd, int nIndex);
 
     [DllImport("user32.dll")]
-    public static extern IntPtr GetAncestor(IntPtr hwnd, uint gaFlags);
+    public static extern nint GetAncestor(nint hwnd, uint gaFlags);
 
     [DllImport("user32.dll")]
-    public static extern IntPtr GetForegroundWindow();
+    public static extern nint GetForegroundWindow();
 
     [DllImport("user32.dll")]
-    public static extern IntPtr GetDesktopWindow();
+    public static extern nint GetDesktopWindow();
 
     [DllImport("user32.dll")]
-    public static extern bool GetWindowRect(IntPtr hwnd, out RECT lpRect);
+    public static extern bool GetWindowRect(nint hwnd, out RECT lpRect);
 
     [DllImport("user32.dll")]
-    public static extern IntPtr GetWindowThreadProcessId(IntPtr hWnd, IntPtr processId);
+    public static extern nint GetWindowThreadProcessId(nint hWnd, nint processId);
 
     [DllImport("user32.dll")]
-    public static extern IntPtr GetWindowThreadProcessId(IntPtr hWnd, out uint processId);
+    public static extern nint GetWindowThreadProcessId(nint hWnd, out uint processId);
 
     [DllImport("user32.dll")]
-    public static extern IntPtr AttachThreadInput(IntPtr idAttach, IntPtr idAttachTo, bool fAttach);
+    public static extern nint AttachThreadInput(nint idAttach, nint idAttachTo, bool fAttach);
 
     [DllImport("user32.dll")]
-    public static extern IntPtr GetFocus();
+    public static extern nint GetFocus();
 
     [DllImport("user32.dll", CharSet = CharSet.Auto)]
-    public static extern int GetClassName(IntPtr hWnd, StringBuilder lpClassName, int nMaxCount);
+    public static extern int GetClassName(nint hWnd, StringBuilder lpClassName, int nMaxCount);
 
     [DllImport("user32.dll")]
-    public static extern IntPtr GetParent(IntPtr hWnd);
+    public static extern nint GetParent(nint hWnd);
 
     [DllImport("user32.dll")]
-    public static extern int SetWindowCompositionAttribute(IntPtr hwnd,
+    public static extern int SetWindowCompositionAttribute(nint hwnd,
         ref WindowHelper.WindowCompositionAttributeData data);
 
     [DllImport("gdi32.dll", CharSet = CharSet.Auto, SetLastError = true, ExactSpelling = true)]
-    public static extern int GetDeviceCaps(IntPtr hDC, DeviceCap nIndex);
+    public static extern int GetDeviceCaps(nint hDC, DeviceCap nIndex);
 
     [DllImport("user32.dll")]
-    public static extern IntPtr MonitorFromWindow(IntPtr hWnd, MonitorDefaults dwFlags);
+    public static extern nint MonitorFromWindow(nint hWnd, MonitorDefaults dwFlags);
 
     [DllImport("user32.dll")]
-    public extern static bool GetMonitorInfo(IntPtr hMonitor, ref MONITORINFOEX lpmi);
+    public extern static bool GetMonitorInfo(nint hMonitor, ref MONITORINFOEX lpmi);
 
     [DllImport("user32.dll", CharSet = CharSet.Auto)]
     public static extern bool EnumDisplayDevices(string lpDevice, uint iDevNum, ref DISPLAYDEVICE lpDisplayDevice, uint dwFlags);
@@ -169,11 +169,11 @@ public static class User32
     }
 
     // ReSharper disable InconsistentNaming
-    public static readonly IntPtr HWND_TOPMOST = new IntPtr(-1);
+    public static readonly nint HWND_TOPMOST = -1;
 
-    public static readonly IntPtr HWND_NOTOPMOST = new IntPtr(-2);
-    public static readonly IntPtr HWND_TOP = new IntPtr(0);
-    public static readonly IntPtr HWND_BOTTOM = new IntPtr(1);
+    public static readonly nint HWND_NOTOPMOST = -2;
+    public static readonly nint HWND_TOP = 0;
+    public static readonly nint HWND_BOTTOM = 1;
 
     public const uint SWP_NOSIZE = 0x0001;
     public const uint SWP_NOMOVE = 0x0002;
