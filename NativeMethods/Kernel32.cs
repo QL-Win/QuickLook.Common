@@ -16,7 +16,6 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using Microsoft.Win32.SafeHandles;
-using System;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -34,6 +33,9 @@ public static class Kernel32
 
     [DllImport("kernel32.dll")]
     public static extern nint GetCurrentThreadId();
+
+    [DllImport("kernel32.dll")]
+    public static extern nint GetCurrentProcess();
 
     [DllImport("kernel32.dll")]
     public static extern bool GetProductInfo(int dwOSMajorVersion, int dwOSMinorVersion, int dwSpMajorVersion,

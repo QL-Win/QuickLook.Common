@@ -15,14 +15,13 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+using QuickLook.Common.NativeMethods;
 using System;
 using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
-using QuickLook.Common.NativeMethods;
 
 namespace QuickLook.Common.Helpers;
 
@@ -37,8 +36,24 @@ public static class ProcessHelper
         Task.Delay(2000).ContinueWith(t => GC.Collect(GC.MaxGeneration));
     }
 
+    public static bool IsFullTrust()
+    {
+        return IsRunningAsUWP() && !IsInAppContainer();
+    }
+
+    public static bool IsInAppContainer()
+    {
+        if (Environment.OSVersion.Version < new Version(6, 2)) // Windows 8
+            return false;
+
+        return UserEnv.IsProcessInAppContainer(Kernel32.GetCurrentProcess(), out bool result) && result;
+    }
+
     public static bool IsRunningAsUWP()
     {
+        if (Environment.OSVersion.Version < new Version(6, 2)) // Windows 8
+            return false;
+
         try
         {
             uint len = 0;
@@ -52,7 +67,6 @@ public static class ProcessHelper
         }
     }
 
-    [SuppressMessage("ReSharper", "InconsistentNaming")]
     public static bool IsOnWindows10S()
     {
         const uint PRODUCT_CLOUD = 0x000000B2; // Windows 10 S
@@ -79,14 +93,11 @@ public static class ProcessHelper
 
         var logFilePath = Path.Combine(SettingHelper.LocalDataPath, @"QuickLook.Exception.log");
 
-        using (var writer = new StreamWriter(new FileStream(logFilePath, FileMode.OpenOrCreate,
-            FileAccess.ReadWrite, FileShare.Read)))
-        {
-            writer.BaseStream.Seek(0, SeekOrigin.End);
+        using var writer = new StreamWriter(new FileStream(logFilePath, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.Read));
+        writer.BaseStream.Seek(0, SeekOrigin.End);
 
-            writer.WriteLine($"========{DateTime.Now}========");
-            writer.WriteLine(msg);
-            writer.WriteLine();
-        }
+        writer.WriteLine($"========{DateTime.Now}========");
+        writer.WriteLine(msg);
+        writer.WriteLine();
     }
 }
