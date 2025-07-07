@@ -35,9 +35,6 @@ public static class Kernel32
     public static extern nint GetCurrentThreadId();
 
     [DllImport("kernel32.dll")]
-    public static extern nint GetCurrentProcess();
-
-    [DllImport("kernel32.dll")]
     public static extern bool GetProductInfo(int dwOSMajorVersion, int dwOSMinorVersion, int dwSpMajorVersion,
         int dwSpMinorVersion, out uint pdwReturnedProductType);
 

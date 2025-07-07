@@ -36,19 +36,6 @@ public static class ProcessHelper
         Task.Delay(2000).ContinueWith(t => GC.Collect(GC.MaxGeneration));
     }
 
-    public static bool IsFullTrust()
-    {
-        return IsRunningAsUWP() && !IsInAppContainer();
-    }
-
-    public static bool IsInAppContainer()
-    {
-        if (Environment.OSVersion.Version < new Version(6, 2)) // Windows 8
-            return false;
-
-        return UserEnv.IsProcessInAppContainer(Kernel32.GetCurrentProcess(), out bool result) && result;
-    }
-
     public static bool IsRunningAsUWP()
     {
         if (Environment.OSVersion.Version < new Version(6, 2)) // Windows 8
