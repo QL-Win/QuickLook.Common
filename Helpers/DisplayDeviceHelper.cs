@@ -38,7 +38,7 @@ public static class DisplayDeviceHelper
 
     public static ScaleFactor GetCurrentScaleFactor()
     {
-        return GetScaleFactorFromWindow(User32.GetForegroundWindow());
+        return GetScaleFactorFromWindow(GetForegroundWindow());
     }
 
     public static ScaleFactor GetScaleFactorFromWindow(nint hwnd)
@@ -112,7 +112,7 @@ public static class DisplayDeviceHelper
     {
         EFFECTIVE_DPI = 0,
         ANGULAR_DPI = 1,
-        RAW_DPI = 2
+        RAW_DPI = 2,
     }
 
     public struct ScaleFactor

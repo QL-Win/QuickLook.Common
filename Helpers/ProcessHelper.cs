@@ -29,7 +29,6 @@ public static class ProcessHelper
 {
     private const int ErrorInsufficientBuffer = 0x7A;
 
-    // ReSharper disable once InconsistentNaming
     public static void PerformAggressiveGC()
     {
         // delay some time to make sure that all windows are closed

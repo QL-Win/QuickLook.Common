@@ -209,7 +209,7 @@ public static class WindowHelper
         AccentEnableGradient = 1,
         AccentEnableTransparentgradient = 2,
         AccentEnableBlurbehind = 3,
-        AccentInvalidState = 4
+        AccentInvalidState = 4,
     }
 
     [StructLayout(LayoutKind.Sequential)]

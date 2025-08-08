@@ -56,7 +56,7 @@ public static class MsCms
     public enum WcsProfileManagementScope
     {
         SYSTEM_WIDE,
-        CURRENT_USER
+        CURRENT_USER,
     }
 
     public enum ColorProfileType
@@ -64,7 +64,7 @@ public static class MsCms
         ICC,
         DMP,
         CAMP,
-        GMMP
+        GMMP,
     };
 
     public enum ColorProfileSubtype
@@ -77,10 +77,10 @@ public static class MsCms
         RGB_WORKING_SPACE,
         CUSTOM_WORKING_SPACE,
         STANDARD_DISPLAY_COLOR_MODE,
-        EXTENDED_DISPLAY_COLOR_MODE
+        EXTENDED_DISPLAY_COLOR_MODE,
     };
 
-    public const uint CLASS_MONITOR = 0x6d6e7472; //'mntr'
-    public const uint CLASS_PRINTER = 0x70727472; //'prtr'
-    public const uint CLASS_SCANNER = 0x73636e72; //'scnr'
+    public const uint CLASS_MONITOR = 0x6d6e7472; // 'mntr'
+    public const uint CLASS_PRINTER = 0x70727472; // 'prtr'
+    public const uint CLASS_SCANNER = 0x73636e72; // 'scnr'
 }

@@ -15,7 +15,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
 using System.Runtime.InteropServices;
 
 namespace QuickLook.Common.NativeMethods;
@@ -23,27 +22,19 @@ namespace QuickLook.Common.NativeMethods;
 public static class Dwmapi
 {
     [StructLayout(LayoutKind.Sequential)]
-    public struct Margins
+    public struct Margins(int cxLeftWidth, int cxRightWidth, int cyTopHeight, int cyBottomHeight)
     {
-        public int cxLeftWidth;
-        public int cxRightWidth;
-        public int cyTopHeight;
-        public int cyBottomHeight;
-
-        public Margins(int cxLeftWidth, int cxRightWidth, int cyTopHeight, int cyBottomHeight)
-        {
-            this.cxLeftWidth = cxLeftWidth;
-            this.cxRightWidth = cxRightWidth;
-            this.cyTopHeight = cyTopHeight;
-            this.cyBottomHeight = cyBottomHeight;
-        }
+        public int cxLeftWidth = cxLeftWidth;
+        public int cxRightWidth = cxRightWidth;
+        public int cyTopHeight = cyTopHeight;
+        public int cyBottomHeight = cyBottomHeight;
     }
 
     public enum WindowAttribute
     {
         UseImmersiveDarkMode = 20,
         SystembackdropType = 38,
-        MicaEffect = 1029
+        MicaEffect = 1029,
     }
 
     public enum SystembackdropType
@@ -52,7 +43,7 @@ public static class Dwmapi
         None = 1,
         MainWindow = 2,
         TransientWindow = 3,
-        TabbedWindow = 4
+        TabbedWindow = 4,
     }
 
     [DllImport("DwmApi.dll")]

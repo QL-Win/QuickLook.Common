@@ -23,10 +23,10 @@ public static class FileExtensions
 {
     public static string ToPrettySize(this long value, int decimalPlaces = 0)
     {
-        const long OneKb = 1024;
-        const long OneMb = OneKb * 1024;
-        const long OneGb = OneMb * 1024;
-        const long OneTb = OneGb * 1024;
+        const long OneKb = 1024L;
+        const long OneMb = OneKb * 1024L;
+        const long OneGb = OneMb * 1024L;
+        const long OneTb = OneGb * 1024L;
 
         var asTb = Math.Round((double)value / OneTb, decimalPlaces);
         var asGb = Math.Round((double)value / OneGb, decimalPlaces);

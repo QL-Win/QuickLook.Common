@@ -26,7 +26,6 @@ namespace QuickLook.Common.Helpers;
 public static class TranslationHelper
 {
     private static readonly CultureInfo CurrentCultureInfo = CultureInfo.CurrentUICulture;
-    //private static readonly CultureInfo CurrentCultureInfo = CultureInfo.GetCultureInfo("zh-CN");
 
     private static readonly Dictionary<string, XPathNavigator> FileCache = [];
 

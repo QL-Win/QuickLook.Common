@@ -21,5 +21,5 @@ public enum Themes
 {
     None,
     Dark,
-    Light
+    Light,
 }

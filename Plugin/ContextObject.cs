@@ -25,7 +25,7 @@ using System.Windows;
 namespace QuickLook.Common.Plugin;
 
 /// <summary>
-///     A runtime object which allows interaction between this plugin and QuickLook.
+/// A runtime object which allows interaction between this plugin and QuickLook.
 /// </summary>
 public class ContextObject : INotifyPropertyChanged
 {
@@ -42,12 +42,12 @@ public class ContextObject : INotifyPropertyChanged
     private string _colorProfileName = null;
 
     /// <summary>
-    ///     Get the instance of Viewer window.
+    /// Get the instance of Viewer window.
     /// </summary>
     public object Source { get; set; }
 
     /// <summary>
-    ///     Get or set the title of Viewer window.
+    /// Get or set the title of Viewer window.
     /// </summary>
     public string Title
     {
@@ -60,7 +60,7 @@ public class ContextObject : INotifyPropertyChanged
     }
 
     /// <summary>
-    ///     Get or set the viewer content control.
+    /// Get or set the viewer content control.
     /// </summary>
     public object ViewerContent
     {
@@ -73,7 +73,7 @@ public class ContextObject : INotifyPropertyChanged
     }
 
     /// <summary>
-    ///     Show or hide the busy indicator icon.
+    /// Show or hide the busy indicator icon.
     /// </summary>
     public bool IsBusy
     {
@@ -86,12 +86,12 @@ public class ContextObject : INotifyPropertyChanged
     }
 
     /// <summary>
-    ///     Set the exact size you want.
+    /// Set the exact size you want.
     /// </summary>
     public Size PreferredSize { get; set; } = new Size { Width = 800, Height = 600 };
 
     /// <summary>
-    ///     Set whether user are allowed to resize the viewer window.
+    /// Set whether user are allowed to resize the viewer window.
     /// </summary>
     public bool CanResize
     {
@@ -104,7 +104,7 @@ public class ContextObject : INotifyPropertyChanged
     }
 
     /// <summary>
-    ///     Set whether the full viewer window can be used for mouse dragging.
+    /// Set whether the full viewer window can be used for mouse dragging.
     /// </summary>
     public bool FullWindowDragging
     {
@@ -117,7 +117,7 @@ public class ContextObject : INotifyPropertyChanged
     }
 
     /// <summary>
-    ///     Set whether the viewer content is overlapped by the title bar
+    /// Set whether the viewer content is overlapped by the title bar
     /// </summary>
     public bool TitlebarOverlap
     {
@@ -130,7 +130,7 @@ public class ContextObject : INotifyPropertyChanged
     }
 
     /// <summary>
-    ///     Set whether the title bar shows a blurred background
+    /// Set whether the title bar shows a blurred background
     /// </summary>
     public bool TitlebarBlurVisibility
     {
@@ -144,7 +144,7 @@ public class ContextObject : INotifyPropertyChanged
     }
 
     /// <summary>
-    ///     Set whether the title bar shows a colour overlay
+    /// Set whether the title bar shows a colour overlay
     /// </summary>
     public bool TitlebarColourVisibility
     {
@@ -158,7 +158,7 @@ public class ContextObject : INotifyPropertyChanged
     }
 
     /// <summary>
-    ///     Should the titlebar hides itself after a short period of inactivity?
+    /// Should the titlebar hides itself after a short period of inactivity?
     /// </summary>
     public bool TitlebarAutoHide
     {
@@ -172,7 +172,7 @@ public class ContextObject : INotifyPropertyChanged
     }
 
     /// <summary>
-    ///     Switch to dark theme?
+    /// Switch to dark theme?
     /// </summary>
     public Themes Theme
     {
@@ -200,8 +200,8 @@ public class ContextObject : INotifyPropertyChanged
     public event PropertyChangedEventHandler PropertyChanged;
 
     /// <summary>
-    ///     Set the size of viewer window, scale or shrink to fit (to screen resolution).
-    ///     The window can take maximum (maxRatio*resolution) space.
+    /// Set the size of viewer window, scale or shrink to fit (to screen resolution).
+    /// The window can take maximum (maxRatio*resolution) space.
     /// </summary>
     /// <param name="size">The desired size.</param>
     /// <param name="maxRatio">The maximum percent (over screen resolution) it can take.</param>

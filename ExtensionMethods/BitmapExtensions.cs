@@ -70,33 +70,25 @@ public static class BitmapExtensions
 
     public static Bitmap ToBitmap(this BitmapSource source)
     {
-        using (var outStream = new MemoryStream())
-        {
-            BitmapEncoder enc = new BmpBitmapEncoder();
-            enc.Frames.Add(BitmapFrame.Create(source));
-            enc.Save(outStream);
-            var bitmap = new Bitmap(outStream);
+        using var outStream = new MemoryStream();
+        BitmapEncoder enc = new BmpBitmapEncoder();
+        enc.Frames.Add(BitmapFrame.Create(source));
+        enc.Save(outStream);
+        var bitmap = new Bitmap(outStream);
 
-            return new Bitmap(bitmap);
-        }
+        return new Bitmap(bitmap);
     }
 
     private static PixelFormat ConvertPixelFormat(
         System.Drawing.Imaging.PixelFormat sourceFormat)
     {
-        switch (sourceFormat)
+        return sourceFormat switch
         {
-            case System.Drawing.Imaging.PixelFormat.Format24bppRgb:
-                return PixelFormats.Bgr24;
-
-            case System.Drawing.Imaging.PixelFormat.Format32bppArgb:
-                return PixelFormats.Bgra32;
-
-            case System.Drawing.Imaging.PixelFormat.Format32bppRgb:
-                return PixelFormats.Bgr32;
-        }
-
-        return new PixelFormat();
+            System.Drawing.Imaging.PixelFormat.Format24bppRgb => PixelFormats.Bgr24,
+            System.Drawing.Imaging.PixelFormat.Format32bppArgb => PixelFormats.Bgra32,
+            System.Drawing.Imaging.PixelFormat.Format32bppRgb => PixelFormats.Bgr32,
+            _ => new PixelFormat(),
+        };
     }
 
     public static bool IsDarkImage(this Bitmap image)

@@ -107,12 +107,12 @@ public static class User32
     public enum DeviceCap
     {
         /// <summary>
-        ///     Logical pixels inch in X
+        /// Logical pixels inch in X
         /// </summary>
         LOGPIXELSX = 88,
 
         /// <summary>
-        ///     Logical pixels inch in Y
+        /// Logical pixels inch in Y
         /// </summary>
         LOGPIXELSY = 90
     }

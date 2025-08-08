@@ -18,44 +18,44 @@
 namespace QuickLook.Common.Plugin;
 
 /// <summary>
-///     Interface implemented by every QuickLook.Plugin
+/// Interface implemented by every QuickLook.Plugin
 /// </summary>
 public interface IViewer
 {
     /// <summary>
-    ///     Set the priority of this plugin. A plugin with a higher priority may override one with lower priority.
-    ///     Set this to int.MaxValue for a maximum priority, int.MinValue for minimum.
+    /// Set the priority of this plugin. A plugin with a higher priority may override one with lower priority.
+    /// Set this to int.MaxValue for a maximum priority, int.MinValue for minimum.
     /// </summary>
     int Priority { get; }
 
     /// <summary>
-    ///     Do ont-time job when application starts. You may extract nessessary resource here.
+    /// Do ont-time job when application starts. You may extract nessessary resource here.
     /// </summary>
     void Init();
 
     /// <summary>
-    ///     Determine whether this plugin can open this file. Please also check the file header, if applicable.
+    /// Determine whether this plugin can open this file. Please also check the file header, if applicable.
     /// </summary>
     /// <param name="path">The full path of the target file.</param>
     bool CanHandle(string path);
 
     /// <summary>
-    ///     Do some preparation stuff before the window is showing. Please not do any work that costs a lot of time.
+    /// Do some preparation stuff before the window is showing. Please not do any work that costs a lot of time.
     /// </summary>
     /// <param name="path">The full path of the target file.</param>
     /// <param name="context">A runtime object which allows interaction between this plugin and QuickLook.</param>
     void Prepare(string path, ContextObject context);
 
     /// <summary>
-    ///     Start the loading process. During the process a busy indicator will be shown. Finish by setting context.IsBusy to
-    ///     false.
+    /// Start the loading process. During the process a busy indicator will be shown. Finish by setting context.IsBusy to
+    /// false.
     /// </summary>
     /// <param name="path">The full path of the target file.</param>
     /// <param name="context">A runtime object which allows interaction between this plugin and QuickLook.</param>
     void View(string path, ContextObject context);
 
     /// <summary>
-    ///     Release any unmanaged resource here.
+    /// Release any unmanaged resource here.
     /// </summary>
     void Cleanup();
 }

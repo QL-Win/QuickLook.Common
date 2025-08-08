@@ -110,7 +110,6 @@ public static class FileHelper
         return pOut.ToString();
     }
 
-    [SuppressMessage("ReSharper", "InconsistentNaming")]
     [Flags]
     private enum AssocF
     {
@@ -128,10 +127,9 @@ public static class FileHelper
         InitIgnoreUnknown = 0x400,
         InitFixedProgid = 0x800,
         IsProtocol = 0x1000,
-        InitForFile = 0x2000
+        InitForFile = 0x2000,
     }
 
-    //[SuppressMessage("ReSharper", "InconsistentNaming")]
     private enum AssocStr
     {
         Command = 1,
@@ -157,6 +155,6 @@ public static class FileHelper
         AppId,
         AppPublisher,
         AppIconReference,
-        Max
+        Max,
     }
 }
