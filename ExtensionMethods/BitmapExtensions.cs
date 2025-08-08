@@ -74,7 +74,7 @@ public static class BitmapExtensions
         BitmapEncoder enc = new BmpBitmapEncoder();
         enc.Frames.Add(BitmapFrame.Create(source));
         enc.Save(outStream);
-        var bitmap = new Bitmap(outStream);
+        using var bitmap = new Bitmap(outStream);
 
         return new Bitmap(bitmap);
     }

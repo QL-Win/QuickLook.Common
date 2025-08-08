@@ -55,11 +55,17 @@ public static class DisplayDeviceHelper
             }
             else
             {
-                var g = Graphics.FromHwnd(IntPtr.Zero);
+                using var g = Graphics.FromHwnd(IntPtr.Zero);
                 var desktop = g.GetHdc();
-
-                dpiX = GetDeviceCaps(desktop, DeviceCap.LOGPIXELSX);
-                dpiY = GetDeviceCaps(desktop, DeviceCap.LOGPIXELSY);
+                try
+                {
+                    dpiX = GetDeviceCaps(desktop, DeviceCap.LOGPIXELSX);
+                    dpiY = GetDeviceCaps(desktop, DeviceCap.LOGPIXELSY);
+                }
+                finally
+                {
+                    g.ReleaseHdc(desktop);
+                }
             }
         }
         catch (Exception e)
