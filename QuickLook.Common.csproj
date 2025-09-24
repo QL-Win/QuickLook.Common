@@ -49,6 +49,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<Reference Include="Microsoft.CSharp" />
 		<Reference Include="WindowsBase" />
 	</ItemGroup>
 

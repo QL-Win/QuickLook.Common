@@ -15,19 +15,10 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.Collections.Generic;
-
-namespace QuickLook.Common.Plugin;
+namespace QuickLook.Common.Plugin.MoreMenu;
 
 /// <summary>
-/// Interface implemented by QuickLook plugins that want to provide custom context menu items.
-/// Plugins implementing this interface can add menu items to the viewer's title bar context menu.
+/// Indicates that the extended version of IMoreMenu means that
+/// the insertion operation will be performed regardless of whether it is a matching plugin or not.
 /// </summary>
-public interface IMoreMenu
-{
-    /// <summary>
-    /// Gets the collection of menu items that this plugin provides.
-    /// This property will be queried after the Prepare method is called.
-    /// </summary>
-    public IEnumerable<IMenuItem> MenuItems { get; }
-}
+public interface IMoreMenuExtended : IMoreMenu;

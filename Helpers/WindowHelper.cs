@@ -30,7 +30,7 @@ public static class WindowHelper
 {
     public enum WindowCompositionAttribute
     {
-        WcaAccentPolicy = 19
+        WcaAccentPolicy = 19,
     }
 
     public static Size GetCurrentDesktopSize()

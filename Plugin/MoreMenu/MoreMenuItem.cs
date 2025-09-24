@@ -21,13 +21,13 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 
-namespace QuickLook.Common.Plugin;
+namespace QuickLook.Common.Plugin.MoreMenu;
 
 /// <summary>
-/// Abstract base class for QuickLook menu items that provides common functionality
+/// Base class for QuickLook menu items that provides common functionality
 /// and implements INotifyPropertyChanged for dynamic property updates.
 /// </summary>
-public abstract class MoreMenuItem : IMenuItem
+public class MoreMenuItem : IMenuItem
 {
     private object _icon;
     private object _header;

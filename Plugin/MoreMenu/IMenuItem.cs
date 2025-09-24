@@ -19,7 +19,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Input;
 
-namespace QuickLook.Common.Plugin;
+namespace QuickLook.Common.Plugin.MoreMenu;
 
 /// <summary>
 /// Represents a menu item that can be added to the QuickLook viewer's context menu.
@@ -27,7 +27,8 @@ namespace QuickLook.Common.Plugin;
 public interface IMenuItem : INotifyPropertyChanged
 {
     /// <summary>
-    /// Gets the icon for the menu item. Can be a string (for Unicode symbols),
+    /// Gets the icon for the menu item. Can be a string (for Unicode symbols)
+    /// String, <seealso cref="Wpf.Ui.Controls.FontSymbols"/> check from https://learn.microsoft.com/en-us/windows/apps/design/style/segoe-fluent-icons-font
     /// ImageSource, or null for no icon.
     /// </summary>
     public object Icon { get; set; }
