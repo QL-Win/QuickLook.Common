@@ -40,6 +40,7 @@ public class ContextObject : INotifyPropertyChanged
     private Themes _theme = Themes.None;
     private object _viewerContent;
     private string _colorProfileName = null;
+    private bool _isBlocked;
 
     /// <summary>
     /// Get the instance of Viewer window.
@@ -197,6 +198,19 @@ public class ContextObject : INotifyPropertyChanged
         }
     }
 
+    /// <summary>
+    /// Get or set whether to block showing the preview window.
+    /// </summary>
+    public bool IsBlocked
+    {
+        get => _isBlocked;
+        set
+        {
+            _isBlocked = value;
+            OnPropertyChanged();
+        }
+    }
+
     public event PropertyChangedEventHandler PropertyChanged;
 
     /// <summary>
@@ -241,6 +255,7 @@ public class ContextObject : INotifyPropertyChanged
         ViewerContent = null;
 
         ColorProfileName = null;
+        IsBlocked = false;
     }
 
     [NotifyPropertyChangedInvocator]
