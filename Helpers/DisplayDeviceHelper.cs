@@ -77,8 +77,22 @@ public static class DisplayDeviceHelper
 
     public static string GetMonitorColorProfileFromWindow(Window window)
     {
-        var hMonitor = MonitorFromWindow(new WindowInteropHelper(window).EnsureHandle(), MonitorDefaults.TONEAREST);
-        return GetMonitorColorProfile(hMonitor);
+        try
+        {
+            var hMonitor = MonitorFromWindow(new WindowInteropHelper(window).EnsureHandle(), MonitorDefaults.TONEAREST);
+            return GetMonitorColorProfile(hMonitor);
+        }
+        catch (COMException ex) when (ex.HResult == unchecked((int)0x80263001))
+        {
+            // Desktop composition is disabled (e.g., during eGPU reconnection)
+            ProcessHelper.WriteLog("Failed to get color profile: Desktop composition is disabled. This is expected during display reconfiguration.");
+            return null;
+        }
+        catch (Exception ex)
+        {
+            ProcessHelper.WriteLog($"Failed to get monitor color profile: {ex}");
+            return null;
+        }
     }
 
     public static string GetMonitorColorProfile(nint hMonitor)
