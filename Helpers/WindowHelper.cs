@@ -168,6 +168,42 @@ public static class WindowHelper
         Marshal.FreeHGlobal(accentPtr);
     }
 
+    public static void DisableBlur(Window window)
+    {
+        var accent = new AccentPolicy();
+        var accentStructSize = Marshal.SizeOf(accent);
+        accent.AccentState = AccentState.AccentDisabled;
+
+        var accentPtr = Marshal.AllocHGlobal(accentStructSize);
+        Marshal.StructureToPtr(accent, accentPtr, false);
+
+        var data = new WindowCompositionAttributeData
+        {
+            Attribute = WindowCompositionAttribute.WcaAccentPolicy,
+            SizeOfData = accentStructSize,
+            Data = accentPtr
+        };
+
+        var hwnd = new WindowInteropHelper(window).EnsureHandle();
+        User32.SetWindowCompositionAttribute(hwnd, ref data);
+
+        Marshal.FreeHGlobal(accentPtr);
+
+        var margins = new Dwmapi.Margins(0, 0, 0, 0);
+        Dwmapi.DwmExtendFrameIntoClientArea(hwnd, ref margins);
+
+        if (Environment.OSVersion.Version >= new Version(10, 0, 22523))
+        {
+            var backdropType = (int)Dwmapi.SystembackdropType.None;
+            Dwmapi.DwmSetWindowAttribute(hwnd, (uint)Dwmapi.WindowAttribute.SystembackdropType, ref backdropType, Marshal.SizeOf(typeof(int)));
+        }
+        else if (Environment.OSVersion.Version >= new Version(10, 0, 21996))
+        {
+            var micaEnabled = 0;
+            Dwmapi.DwmSetWindowAttribute(hwnd, (uint)Dwmapi.WindowAttribute.MicaEffect, ref micaEnabled, Marshal.SizeOf(typeof(int)));
+        }
+    }
+
     private static void EnableDwmBlur(Window window, bool isDarkTheme, uint dwAttribute, int pvAttribute)
     {
         // Mica will handle the color
