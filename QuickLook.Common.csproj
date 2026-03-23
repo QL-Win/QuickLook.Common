@@ -54,6 +54,6 @@
 	</ItemGroup>
 
 	<PropertyGroup>
-		<PreBuildEvent>powershell -file "$(SolutionDir)Scripts\update-version.ps1"</PreBuildEvent>
+		<PreBuildEvent>powershell -ExecutionPolicy Bypass -file "$(SolutionDir)Scripts\update-version.ps1"</PreBuildEvent>
 	</PropertyGroup>
 </Project>
